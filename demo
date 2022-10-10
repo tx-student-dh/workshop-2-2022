@@ -1,0 +1,36 @@
+# Getting set up
+
+import nltk
+from urllib import request
+nltk.download('vader_lexicon')
+from nltk.sentiment.vader import SentimentIntensityAnalyzer 
+
+# Use your own Gutenberg URL instead of Dracula
+
+url = "https://www.gutenberg.org/files/345/345-0.txt"
+
+# Scraping the URL, tokenizing text
+
+response = request.urlopen(url) 
+raw = response.read().decode('utf8') 
+tokens = nltk.word_tokenize(raw) 
+text = nltk.Text(tokens)
+
+# Concordance/Common Contexts
+
+text.concordance("vampire")
+text.common_contexts(["vampire"])
+
+# Counts
+
+count = text.count("vampire") 
+total = len(text)
+percentage = count/total
+
+print(percentage)
+
+# Sentiment Analysis
+
+sid = SentimentIntensityAnalyzer()
+scores = sid.polarity_scores(raw)
+print(scores)
